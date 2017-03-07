@@ -102,7 +102,7 @@
 
 #ifdef CONFIG_CAN_MCP251X
 #include <linux/can/platform/mcp251x.h>
-#define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PX2
+#define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PV6
 
 static struct mcp251x_platform_data mcp251x_info = {
        .oscillator_frequency = 8 * 1000 * 1000, /* CAN SPI click 5V has a 8MHz crystal */
@@ -112,18 +112,7 @@ static struct mcp251x_platform_data mcp251x_info = {
        .transceiver_enable   = NULL, /* We don't want any transceiver enable function */
 };
 
-struct spi_board_info mcp251x_spi_board0[1] = {
-       {
-               .modalias = "mcp2515", /* (or mcp2510) used chip controller */
-               .platform_data = &mcp251x_info, /* reference to the mcp251x_platform_data mcp251x_info */
-               .max_speed_hz  = 8 * 1000 * 1000, /* max speed of the used chip */
-               .chip_select   = 0, /* the spi cs usage*/
-               .bus_num = 0,
-               .mode = SPI_MODE_0,
-       },
-};
-
-struct spi_board_info mcp251x_spi_board1[1] = {
+struct spi_board_info mcp251x_spi_board[1] = {
        {
                .modalias = "mcp2515", /* (or mcp2510) used chip controller */
                .platform_data = &mcp251x_info, /* reference to the mcp251x_platform_data mcp251x_info */
@@ -134,23 +123,10 @@ struct spi_board_info mcp251x_spi_board1[1] = {
        },
 };
 
-struct spi_board_info mcp251x_spi_board2[1] = {
-       {
-               .modalias = "mcp2515", /* (or mcp2510) used chip controller */
-               .platform_data = &mcp251x_info, /* reference to the mcp251x_platform_data mcp251x_info */
-               .max_speed_hz  = 8 * 1000 * 1000, /* max speed of the used chip */
-               .chip_select   = 0, /* the spi cs usage*/
-               .bus_num = 2,
-               .mode = SPI_MODE_0,
-       },
-};
-
 static int __init mcp251x_init(void)
 {
-       //mcp251x_spi_board[0].irq = gpio_to_irq(CAN_GPIO_IRQ_MCP251x_SPI); // #define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PK2
-       //spi_register_board_info(mcp251x_spi_board0, ARRAY_SIZE(mcp251x_spi_board0));
-       //spi_register_board_info(mcp251x_spi_board1, ARRAY_SIZE(mcp251x_spi_board1));
-       spi_register_board_info(mcp251x_spi_board2, ARRAY_SIZE(mcp251x_spi_board2));
+       mcp251x_spi_board[0].irq = gpio_to_irq(CAN_GPIO_IRQ_MCP251x_SPI); // #define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PK2
+       spi_register_board_info(mcp251x_spi_board, ARRAY_SIZE(mcp251x_spi_board));
        pr_info("mcp251x_init\n");
        return 0;
 }
