@@ -21,16 +21,19 @@
 	gpio@6000d000 {
 	    /* Needed for J21 Header SPI1 */
 	    gpio_default: default {
-	        gpio-to-sfio = <16 17 18 19 20>;
+	    	gpio-input = <170 174 185>; // Set PV2, PV6, and PX1 to inputs
+	        gpio-to-sfio = <16 17 18 19 20>; // J21 Header SPI1
 	    };
     };
+    
+    
 	
 	/* J21 Header SPI1 */
-	/* Note the difference in numbering between the connector and bus */
+	/* Note the difference in numbering between the connector and device */
     spi@7000d400 {
     	status = "okay";
     	
-    	spi0_0 {
+    	spidev0_0 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			compatible = "linux,spidev", "spidev";
@@ -44,7 +47,7 @@
 			nvidia,tx-clk-tap-delay = <0x0>;
 	    };
 	    
-	    spi0_1 {
+	    spidev0_1 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			compatible = "linux,spidev", "spidev";
@@ -59,12 +62,12 @@
 	    };
     };
     
-    /* J23 Expansion Connector SPI0 */
-    /* Note the difference in numbering between the connector and bus */
+    /* J23 Expansion Connector SPI2 (CAN-A)*/
+    /* Note the difference in numbering between the connector and device */
     spi@7000d600 {
 		status = "okay";
 		
-	    spi1_0 {
+	    spidev1_0 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			compatible = "linux,spidev", "spidev";
@@ -77,12 +80,13 @@
 			nvidia,tx-clk-tap-delay = <0x0>;
 		};
 	};
-
-    /* J23 Expansion Connector SPI2 */
-    spi@7000d800 {
+    
+    /* J23 Expansion Connector SPI0 (CAN-B) */
+    /* Note the difference in numbering between the connector and device */
+    spi@7000da00 {
     	status = "okay";
     	
-        spi2_0 {
+        spidev3_0 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
 			compatible = "linux,spidev", "spidev";

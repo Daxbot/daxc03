@@ -102,31 +102,31 @@
 
 #ifdef CONFIG_CAN_MCP251X
 #include <linux/can/platform/mcp251x.h>
-#define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PV6
+#define CAN_GPIO_IRQ_MCP251x_B TEGRA_GPIO_PV6
 
 static struct mcp251x_platform_data mcp251x_info = {
-       .oscillator_frequency = 8 * 1000 * 1000, /* CAN SPI click 5V has a 8MHz crystal */
-       .irq_flags            = IRQF_TRIGGER_FALLING|IRQF_ONESHOT,  /* This is also defined in the mcp251x driver: can be ommited */
+       .oscillator_frequency = 16 * 1000 * 1000, /* MCP2515 has 16MHz crystal */
        .board_specific_setup = NULL, /* We don't have a board specific setup */
        .power_enable         = NULL, /* We don't want any power enable function */
        .transceiver_enable   = NULL, /* We don't want any transceiver enable function */
 };
 
-struct spi_board_info mcp251x_spi_board[1] = {
+struct spi_board_info mcp251x_spi_board_b[1] = {
        {
                .modalias = "mcp2515", /* (or mcp2510) used chip controller */
                .platform_data = &mcp251x_info, /* reference to the mcp251x_platform_data mcp251x_info */
-               .max_speed_hz  = 8 * 1000 * 1000, /* max speed of the used chip */
+               .max_speed_hz  = 2 * 1000 * 1000, /* max speed of the used chip */
                .chip_select   = 0, /* the spi cs usage*/
-               .bus_num = 1,
+               .bus_num = 3, // SPI0
                .mode = SPI_MODE_0,
        },
 };
 
 static int __init mcp251x_init(void)
 {
-       mcp251x_spi_board[0].irq = gpio_to_irq(CAN_GPIO_IRQ_MCP251x_SPI); // #define CAN_GPIO_IRQ_MCP251x_SPI TEGRA_GPIO_PK2
-       spi_register_board_info(mcp251x_spi_board, ARRAY_SIZE(mcp251x_spi_board));
+       mcp251x_spi_board_b->irq = gpio_to_irq(CAN_GPIO_IRQ_MCP251x_B);
+       spi_register_board_info(mcp251x_spi_board_b, ARRAY_SIZE(mcp251x_spi_board_b));
+
        pr_info("mcp251x_init\n");
        return 0;
 }
