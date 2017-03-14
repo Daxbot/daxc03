@@ -105,7 +105,7 @@
 #define CAN_GPIO_IRQ_MCP251x_B TEGRA_GPIO_PV6
 
 static struct mcp251x_platform_data mcp251x_info = {
-       .oscillator_frequency = 16 * 1000 * 1000, /* MCP2515 has 16MHz crystal */
+       .oscillator_frequency = 16 * 1000 * 1000, /* Oscillator connected to the MCP2515 crystal */
        .board_specific_setup = NULL, /* We don't have a board specific setup */
        .power_enable         = NULL, /* We don't want any power enable function */
        .transceiver_enable   = NULL, /* We don't want any transceiver enable function */

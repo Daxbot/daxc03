@@ -12,18 +12,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
- 
- /* GPIO Information located here:
+
+ /*
+  * GPIO Information located here:
   * ./arch/arm/mach-tegra/gpio-names.h
   */
 
+  /*
+   * J21 Header SPI1 == bus_num 0
+   * Expansion SPI0 == bus_num 3
+   * Expansion SPI2 == bus_num 1
+   */
+
 / {
-	gpio@6000d000 {
-	    /* Needed for J21 Header SPI1 */
-	    gpio_default: default {
-	    	gpio-input = <170 174 185>; // Set PV2, PV6, and PX1 to inputs
-	        gpio-to-sfio = <16 17 18 19 20>; // J21 Header SPI1
-	    };
+    gpio@6000d000 {
+        /* Needed for J21 Header SPI1 */
+        gpio_default: default {
+            gpio-input = <170 174 185>; // Set PV2, PV6, and PX1 to input
+            gpio-to-sfio = <16 17 18 19 20>; // J21 Header SPI1
+        };
     };
     
     
