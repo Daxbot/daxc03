@@ -18,11 +18,11 @@
   * ./arch/arm/mach-tegra/gpio-names.h
   */
 
-  /*
-   * J21 Header SPI1 == bus_num 0
-   * Expansion SPI0 == bus_num 3
-   * Expansion SPI2 == bus_num 1
-   */
+/*
+ * J21 Header SPI1 == bus_num 0
+ * Expansion SPI0 == bus_num 3
+ * Expansion SPI2 == bus_num 1
+ */
 
 / {
 	clocks {
