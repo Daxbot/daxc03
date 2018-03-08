@@ -25,66 +25,52 @@
    */
 
 / {
-    gpio@6000d000 {
-        /* Needed for J21 Header SPI1 */
-        gpio_default: default {
-            gpio-input = <170 174 185>; // Set PV2, PV6, and PX1 to input
-            gpio-to-sfio = <16 17 18 19 20>; // J21 Header SPI1
-        };
-    };
-    
-    
-	
-	/* J21 Header SPI1 */
-	/* Note the difference in numbering between the connector and device */
-    spi@7000d400 {
-    	status = "okay";
-    	
-    	spidev0_0 {
-			#address-cells = <0x1>;
-			#size-cells = <0x0>;
-			compatible = "linux,spidev", "spidev";
-			status = "okay";
-			reg = <0x0>;
-			spi-max-frequency = <20000000>;
-			nvidia,enable-hw-based-cs;
-			nvidia,cs-setup-clk-count = <0x1e>;
-			nvidia,cs-hold-clk-count = <0x1e>;
-			nvidia,rx-clk-tap-delay = <0x1f>;
-			nvidia,tx-clk-tap-delay = <0x0>;
-	    };
-	    
-	    spidev0_1 {
-			#address-cells = <0x1>;
-			#size-cells = <0x0>;
-			compatible = "linux,spidev", "spidev";
-			status = "okay";
-			reg = <0x1>;
-			spi-max-frequency = <20000000>;
-			nvidia,enable-hw-based-cs;
-			nvidia,cs-setup-clk-count = <0x1e>;
-			nvidia,cs-hold-clk-count = <0x1e>;
-			nvidia,rx-clk-tap-delay = <0x1f>;
-			nvidia,tx-clk-tap-delay = <0x0>;
-	    };
-    };
-    
+	clocks {
+		/* 16MHz external crystal oscillator */
+		daxc03_clock: mcp251x_osc {
+			#clock-cells = <0>;
+			compatible = "fixed-clock";
+			clock-frequency = <16000000>;
+		};
+	};
+
+	pinmux@700008d4 {
+		common {
+			lcd_rst_pv2 {
+				nvidia,pins = "lcd_rst_pv2";
+				nvidia,pull = <0x2>;
+				nvidia,tristate = <0x0>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+
+			touch_rst_pv6 {
+				nvidia,pins = "touch_rst_pv6";
+				nvidia,pull = <0x2>;
+				nvidia,tristate = <0x0>;
+				nvidia,enable-input = <TEGRA_PIN_ENABLE>;
+			};
+		};
+	};
+
     /* J23 Expansion Connector SPI2 (CAN-A)*/
     /* Note the difference in numbering between the connector and device */
     spi@7000d600 {
 		status = "okay";
-		
-	    spidev1_0 {
+		spi-max-frequency = <2000000>;
+
+		can@0 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
-			compatible = "linux,spidev", "spidev";
+			compatible = "microchip,mcp2515";
 			reg = <0x0>;
-			spi-max-frequency = <20000000>;
-			nvidia,enable-hw-based-cs;
-			nvidia,cs-setup-clk-count = <0x1e>;
-			nvidia,cs-hold-clk-count = <0x1e>;
-			nvidia,rx-clk-tap-delay = <0x1f>;
-			nvidia,tx-clk-tap-delay = <0x0>;
+
+			clocks = <&daxc03_clock>;
+			interrupt-parent = <&gpio>;
+			interrupts = <TEGRA_GPIO(V, 2) IRQ_TYPE_EDGE_FALLING>;
+			spi-max-frequency = <2000000>;
+
+			vdd-supply = <&max77620_ldo5>;
+			xceiver-supply = <&max77620_ldo5>;
 		};
 	};
     
@@ -92,18 +78,21 @@
     /* Note the difference in numbering between the connector and device */
     spi@7000da00 {
     	status = "okay";
-    	
-        spidev3_0 {
+		spi-max-frequency = <2000000>;
+
+		can@0 {
 			#address-cells = <0x1>;
 			#size-cells = <0x0>;
-			compatible = "linux,spidev", "spidev";
+			compatible = "microchip,mcp2515";
 			reg = <0x0>;
-			spi-max-frequency = <20000000>;
-			nvidia,enable-hw-based-cs;
-			nvidia,cs-setup-clk-count = <0x1e>;
-			nvidia,cs-hold-clk-count = <0x1e>;
-			nvidia,rx-clk-tap-delay = <0x1f>;
-			nvidia,tx-clk-tap-delay = <0x0>;
+
+			clocks = <&daxc03_clock>;
+			interrupt-parent = <&gpio>;
+			interrupts = <TEGRA_GPIO(V, 6) IRQ_TYPE_EDGE_FALLING>;
+			spi-max-frequency = <2000000>;
+
+			vdd-supply = <&max77620_ldo5>;
+			xceiver-supply = <&max77620_ldo5>;
 		};
     };
 };
