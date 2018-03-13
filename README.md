@@ -94,7 +94,7 @@ Enable driver using menuconfig
 ```bash
 Device Drivers --->
     [*] SPI support --->
-        <*> User mode SPI device dtsi support
+        <*> User mode SPI device driver support
 ```
 
 ```bash
