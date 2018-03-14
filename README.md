@@ -101,7 +101,8 @@ Device Drivers --->
 [*] Networking support --->
     <*> CAN bus subsystem support --->
         CAN Device Drivers --->
-            <*> Microchip MCP251x SPI CAN controllers
+            CAN SPI interfaces --->
+                <*> Microchip MCP251x SPI CAN controllers
 ```
 
 Now you can compile the kernel image and device tree blob
