@@ -60,13 +60,21 @@ Clone the dtsi repository to the sources directory.
 
     git clone https://github.com/DaxBot/daxc03.git $SOURCEDIR/daxc03
 
-Create symbolic links to the new files and insert them into the kernel.
+Jetson TX1: Create symbolic links to the new files and insert them into the kernel.
 
     # Link dtsi files
     ln -s $SOURCEDIR/daxc03/tegra210-daxc03.dtsi $SOURCEDIR/hardware/nvidia/platform/t210/jetson/kernel-dts/
 
     # Update device tree to include new entires
     echo "#include \"tegra210-daxc03.dtsi\"" >> $SOURCEDIR/hardware/nvidia/platform/t210/jetson/kernel-dts/tegra210-jetson-tx1-p2597-2180-a01-devkit.dts
+
+Jetson TX2: Create symbolic links to the new files and insert them into the kernel.
+
+    # Link dtsi files
+    ln -s $SOURCEDIR/daxc03/tegra186-daxc03.dtsi $SOURCEDIR/hardware/nvidia/platform/t18x/quill/kernel-dts/
+
+    # Update device tree to include new entires
+    echo "#include \"tegra186-daxc03.dtsi\"" >> $SOURCEDIR/hardware/nvidia/platform/t18x/quill/kernel-dts/tegra186-quill-p3310-1000-a00-00-base.dts
 
 ### Compile the Kernel <a name="compile"></a>
 
@@ -94,7 +102,11 @@ Enable driver using menuconfig
 ```bash
 [*] Networking support --->
     <*> CAN bus subsystem support --->
+        <*> Raw CAN Protocol (raw access with CAN-ID filtering)
+        <*> Broadcast Manager CAN Protocol (with content filtering)
+        <*> CAN Gateway/Router (with netlink configuration)
         CAN Device Drivers --->
+            <*> Platform CAN drivers with Netlink support
             CAN SPI interfaces --->
                 <*> Microchip MCP251x SPI CAN controllers
 ```

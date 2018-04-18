@@ -13,23 +13,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define DAXC03_INT_A  TEGRA_MAIN_GPIO(V, 2)
-#define DAXC03_INT_B  TEGRA_MAIN_GPIO(V, 6)
-
-/*
- * J21 Header SPI1 == bus_num 0
- * Expansion SPI0 == bus_num 3
- * Expansion SPI2 == bus_num 1
- */
-
- /*
-  * SPI Bus Addresses
-  *
-  * spi0 = "/spi@7000d400";
-  * spi1 = "/spi@7000d600";
-  * spi2 = "/spi@7000d800";
-  * spi3 = "/spi@7000da00";
-  */
+#define DAXC03_INT_A  TEGRA_MAIN_GPIO(P, 3)
+#define DAXC03_INT_B  TEGRA_AON_GPIO(S, 3)
 
 / {
 	clocks {
@@ -41,18 +26,27 @@
 		};
 	};
 
-	gpio@6000d000 {
-         daxc03_interrupt {
+	tegra_main_gpio: gpio@2200000 {
+         daxc03_int_a {
             gpio-hog;
             input;
-			gpios = <DAXC03_INT_A 0 DAXC03_INT_B 0>;
-            label = "daxc03_int_a", "daxc03_int_b";
+			gpios = <DAXC03_INT_A 0>;
+            label = "daxc03_int_a";
+         };
+	};
+
+	tegra_aon_gpio: gpio@c2f0000 {
+         daxc03_int_b {
+            gpio-hog;
+            input;
+			gpios = <DAXC03_INT_B 0>;
+            label = "daxc03_int_b";
          };
 	};
 
     /* J23 Expansion Connector SPI2 (CAN-A)*/
     /* Note the difference in numbering between the connector and device */
-    spi@7000d600 {
+    spi@3210000 {
 		status = "okay";
 		spi-max-frequency = <2000000>;
 
@@ -63,20 +57,24 @@
 			reg = <0x0>;
 
 			clocks = <&clk16m>;
-			interrupt-parent = <&gpio>;
+			interrupt-parent = <&tegra_main_gpio>;
 			interrupts = <DAXC03_INT_A IRQ_TYPE_EDGE_FALLING>;
 			spi-max-frequency = <2000000>;
 
-			vdd-supply = <&max77620_ldo5>;
-			xceiver-supply = <&max77620_ldo5>;
+			vdd-supply = <&spmic_ldo5>;
+			xceiver-supply = <&spmic_ldo5>;
 		};
 	};
     
     /* J23 Expansion Connector SPI0 (CAN-B) */
     /* Note the difference in numbering between the connector and device */
-    spi@7000da00 {
+    spi@c260000 {
     	status = "okay";
 		spi-max-frequency = <2000000>;
+
+		spi-touch-sharp19x12@0 {
+			status = "disabled";
+		};
 
 		can@0 {
 			#address-cells = <0x1>;
@@ -85,12 +83,12 @@
 			reg = <0x0>;
 
 			clocks = <&clk16m>;
-			interrupt-parent = <&gpio>;
+			interrupt-parent = <&tegra_aon_gpio>;
 			interrupts = <DAXC03_INT_B IRQ_TYPE_EDGE_FALLING>;
 			spi-max-frequency = <2000000>;
 
-			vdd-supply = <&max77620_ldo5>;
-			xceiver-supply = <&max77620_ldo5>;
+			vdd-supply = <&spmic_ldo5>;
+			xceiver-supply = <&spmic_ldo5>;
 		};
     };
 };
