@@ -3,8 +3,11 @@ Dax Circuit 03
 DAX-C03 is an addon board for the Nvidia Jetson TX1 Development Board that serves as a CAN master node.  It has two MCP2515 CAN controller chips connected to SPI0 and SPI2 on the TX1 Display Expansion connector.  Two ISO1050 isolated CAN tranceivers work as an interface between the bus and the MCP2515.  The MCP2515 is controlled by the MCP251x driver that is included in the linux kernel. 
 
 Status on Jetson TX1:
-* Fully working under l4t-28.1 (master)
+* Fully working under l4t-28.2 (master)
 * Fully working under l4t-24.2 (see releases)
+
+Status on Jetson TX2:
+* Fully working under l4t-28.2 (master)
 
 ## Table of Contents
 
