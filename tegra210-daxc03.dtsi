@@ -13,7 +13,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#define DAXC03_INT_A  TEGRA_MAIN_GPIO(V, 2)
 #define DAXC03_INT_B  TEGRA_MAIN_GPIO(V, 6)
 
 /*
@@ -45,34 +44,12 @@
          daxc03_interrupt {
             gpio-hog;
             input;
-			gpios = <DAXC03_INT_A 0 DAXC03_INT_B 0>;
-            label = "daxc03_int_a", "daxc03_int_b";
+			gpios = <DAXC03_INT 0>;
+            label = "daxc03_int";
          };
 	};
 
-    /* J23 Expansion Connector SPI2 (CAN-A)*/
-    /* Note the difference in numbering between the connector and device */
-    spi@7000d600 {
-		status = "okay";
-		spi-max-frequency = <2000000>;
-
-		can@0 {
-			#address-cells = <0x1>;
-			#size-cells = <0x0>;
-			compatible = "microchip,mcp2515";
-			reg = <0x0>;
-
-			clocks = <&clk16m>;
-			interrupt-parent = <&gpio>;
-			interrupts = <DAXC03_INT_A IRQ_TYPE_EDGE_FALLING>;
-			spi-max-frequency = <2000000>;
-
-			vdd-supply = <&max77620_ldo5>;
-			xceiver-supply = <&max77620_ldo5>;
-		};
-	};
-    
-    /* J23 Expansion Connector SPI0 (CAN-B) */
+    /* J23 Expansion Connector SPI0 */
     /* Note the difference in numbering between the connector and device */
     spi@7000da00 {
     	status = "okay";
@@ -86,7 +63,7 @@
 
 			clocks = <&clk16m>;
 			interrupt-parent = <&gpio>;
-			interrupts = <DAXC03_INT_B IRQ_TYPE_EDGE_FALLING>;
+			interrupts = <DAXC03_INT IRQ_TYPE_EDGE_FALLING>;
 			spi-max-frequency = <2000000>;
 
 			vdd-supply = <&max77620_ldo5>;

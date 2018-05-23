@@ -27,12 +27,12 @@ First download Jetpack and make the file executable
 
 Next transfer the installer to its own folder.
 
-    mkdir ~/l4t_r28.1
-    mv JetPack-L4T-3.1-linux-x64.run ~/l4t_r28.1/
+    mkdir ~/l4t_r28.2
+    mv JetPack-L4T-3.1-linux-x64.run ~/l4t_r28.2/
 
 Export ```$DEVDIR``` as the new JetPack location.
 
-    export DEVDIR=~/l4t_r28.1
+    export DEVDIR=~/l4t_r28.2
 
 Now run the installer and follow the instructions.  Once you get to the Package list change the action next to "Install on Target" to "no action."  This will install the dev environment but skip flashing.  We will be modifying the kernel to include this dtsi before flashing the image.
 
@@ -53,7 +53,7 @@ Install using the following commands:
 Download the kernel source code by running the source_sync script.  This will take a few minutes.  Specify which version using the -k tag.
 
     cd $DEVDIR/64_TX1/Linux_for_Tegra_64_tx1/
-    ./source_sync.sh -k tegra-l4t-r28.1
+    ./source_sync.sh -k tegra-l4t-r28.2
 
 Export ```$SOURCEDIR``` as the sources directory created by ```source_sync.sh```.
 
